@@ -10,6 +10,7 @@ packages = [{include = "physic_bot"}]
 python = "^3.10"
 aiogram = "^2.25.1"
 python-dotenv = "^1.0.0"
+gunicorn = "^20.1.0"
 
 
 [build-system]
