@@ -1,13 +1,7 @@
-import os
-
-from aiogram import types
 from aiogram.dispatcher.filters import CommandStart, CommandHelp
 from aiogram.types import Message
 
-from loader import dp, bot
-
-ADMIN_IDS = os.getenv('ADMIN_ID').split(',')
-ADMIN_IDS = [int(_id) for _id in ADMIN_IDS if _id]
+from loader import dp
 
 
 @dp.message_handler(CommandStart())
@@ -25,36 +19,8 @@ async def help_message(msg: Message):
     await msg.answer(text)
 
 
-# admin photo
-@dp.message_handler(lambda msg: msg.from_user.id in ADMIN_IDS)
-@dp.message_handler(content_types=['photo'])
-async def send_photo(msg: Message):
-    photo_file_id = msg.photo[-1].file_id
-    text = msg.caption
-    for admin_id in ADMIN_IDS:
-        await bot.send_photo(admin_id, photo=photo_file_id, caption=text)
-    await msg.answer('rasm adminga yuborildi 🙂')
+# admin handler
+from admin_handler import *  # noqa
 
-
-# admin send message
-@dp.message_handler(lambda msg: msg.from_user.id in ADMIN_IDS)
-async def admin_message(msg: Message):
-    await bot.send_message(msg.reply_to_message.forward_from.id, msg.text)
-
-
-# user photo
-@dp.message_handler(content_types=types.ContentType.PHOTO)
-async def send_photo(msg: Message):
-    photo_file_id = msg.photo[-1].file_id
-    text = msg.caption
-    for admin_id in ADMIN_IDS:
-        await bot.send_photo(admin_id, photo=photo_file_id, caption=text)
-    await msg.answer('rasm adminga yuborildi 🙂')
-
-
-# user message
-@dp.message_handler()
-async def response(msg: Message):
-    for admin_id in ADMIN_IDS:
-        await bot.forward_message(admin_id, msg.chat.id, msg.message_id)
-    await msg.answer('xabar adminga yuborildi 😊')
+# user handler
+from user_handler import *  # noqa
