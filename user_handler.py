@@ -19,7 +19,7 @@ async def send_photo(msg: Message):
         text += f"\n{mes}"
     for admin_id in ADMIN_IDS:
         await bot.send_photo(admin_id, photo=photo_file_id, caption=text)
-    await msg.answer('rasm adminga yuborildi 🙂')
+    await msg.answer('⏳')
 
 
 @dp.message_handler(Text(contains='Assalom', ignore_case=True))
@@ -28,9 +28,8 @@ async def hello_message(msg: Message):
     await msg.reply("Vaalaykum assalom va Rohmatulloh 🙂")
 
 
-# user message
 @dp.message_handler()
 async def response(msg: Message):
     for admin_id in ADMIN_IDS:
         await bot.forward_message(admin_id, msg.chat.id, msg.message_id)
-    await msg.answer('xabar adminga yuborildi 😊')
+    await msg.answer('⏳')
