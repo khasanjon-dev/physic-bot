@@ -14,7 +14,10 @@ ADMIN_IDS = [int(_id) for _id in ADMIN_IDS if _id]
 async def admin_send_photo(msg: Message):
     photo_file_id = msg.photo[-1].file_id
     text = msg.caption
-    await bot.send_photo(msg.reply_to_message.forward_from.id, photo=photo_file_id, caption=text)
+    try:
+        await bot.send_photo(msg.reply_to_message.forward_from.id, photo=photo_file_id, caption=text)
+    except:
+        pass
 
 
 @dp.message_handler(chat_id=ADMIN_IDS)
